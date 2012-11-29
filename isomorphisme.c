@@ -6,6 +6,9 @@
 //TODO: Stable coloration 
 //I'm prefering using a sparse structure, with list. It is less costly in
 //memory
+
+
+int size;
 struct pii
 {
     int a;
@@ -22,21 +25,31 @@ struct isomorph
 {
     struct list pii;
 };
-typedef struct color color;
-struct color
-{
-    int n;
-    struct list l[];
-};
 
+//    int tabl[size]; tableau de taille n, contient le nombre de répétition de chaque couleur
 struct graph
 {
     struct list lsommet;
     struct graph *next;
 };
-color* to_color(color *col_init, struct graph graph)
-{   
-    return col_init;
+
+    //Possedant un coloriage à l'ordre k on veut colorier à k+1
+    //un coloriage c'est un tableau de taille nombre de sommets, ou a
+    //chaque case on met une la couleur (généralisée du sommet)
+    //On rajoute donc comme couleur le multiensemble des couleurs
+    //Ensuite on renomme les couleurs dans {1,n}
+int* new_coloration (int **color)
+{
+}
+int test_color (int *color1, int *color2)
+{
+    int i;
+    int res=1;
+    for(i=0;i<size;i++)
+    {
+        if(color1[i]!=color2[i]){res=0;} 
+    }
+    return res;
 }
 
 int main(int argc, char *argv[])
