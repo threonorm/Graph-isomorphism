@@ -54,6 +54,12 @@ struct list acces(struct graph *graphentree, int i)
   return aux->lsommet;
 }
 
+//Todo : A function that renumerate colors.
+
+int* renumerate_color (struct graph g1,int **color_old)
+{
+
+}
 
 int* new_coloration_vertex (struct graph g1,int **color_old,int i)
 //Find the new color of vertex i.
@@ -62,7 +68,14 @@ int* new_coloration_vertex (struct graph g1,int **color_old,int i)
     int *color_i=NULL;
     color_i=malloc(sizeof(int)*size);
     sommets= acces(&g1,i);
-    
+    //Remark: It's costly, always polynomial, but this step cost about n^2
+    int j;
+    int k;
+    while(sommets.next !=NULL)
+    {
+        for(k=0;k<size;k++)
+        {color_i[j]=color_i[j]+color_old[k][j];}
+    }
 }
 
 
