@@ -1,47 +1,73 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-//For all vertex, associate in the step k,an array color of length n, which contains
-//in color[i] the number of repetition of color i, in the coloration f_k
-//TODO: Stable coloration 
+
+
 //I'm prefering using a sparse structure, with list. It is less costly in
 //memory
 
+//Size is a global variable representing the max degree of graphs. 
 
+//-----------Global variables---------------
 int size;
-struct pii
-{
-    int a;
-    int b;
-};
 
+
+
+//----------------Data structures---------------
 struct list
 {
     int elem;
     struct list* next;
 };
 
-struct isomorph
-{
-    struct list pii;
-};
 
-//    int tabl[size]; tableau de taille n, contient le nombre de répétition de chaque couleur
 struct graph
 {
     struct list lsommet;
     struct graph *next;
 };
 
-    //Possedant un coloriage à l'ordre k on veut colorier à k+1
-    //un coloriage c'est un tableau de taille nombre de sommets, ou a
-    //chaque case on met une la couleur (généralisée du sommet)
-    //On rajoute donc comme couleur le multiensemble des couleurs
-    //Ensuite on renomme les couleurs dans {1,n}
-int* new_coloration (int **color)
+
+//-------------Basic functions--------------
+
+int i_of_list(int i,struct list *l)
+//To access to the i-th element of a list l
 {
+    int j;
+    struct list *lres=l;
+    for(j=0;j<i;j++)
+    {
+        l= l->next;
+    }
+    return (l->elem);
 }
+
+struct list acces(struct graph *graphentree, int i)
+//Basic function to have the neighbourhood of the vertex i.
+{
+  int j;
+  struct graph *aux=graphentree;
+  for(j=0;j<i;j++)
+  {
+          aux = aux->next;
+  }
+  return aux->lsommet;
+}
+
+
+int* new_coloration_vertex (struct graph g1,int **color_old,int i)
+//Find the new color of vertex i.
+{
+    struct list sommets;
+    int *color_i=NULL;
+    color_i=malloc(sizeof(int)*size);
+    sommets= acces(&g1,i);
+    
+}
+
+
 int test_color (int *color1, int *color2)
+//Equality for colors
 {
     int i;
     int res=1;
@@ -51,6 +77,9 @@ int test_color (int *color1, int *color2)
     }
     return res;
 }
+
+
+//---------------Body-------------
 
 int main(int argc, char *argv[])
 {
