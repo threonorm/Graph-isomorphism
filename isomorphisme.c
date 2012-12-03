@@ -3,111 +3,128 @@
 #include <math.h>
 
 
-//I'm prefering using a sparse structure, with list. It is less costly in
-//memory
-
-//Size is a global variable representing the max degree of graphs. 
-
-//-----------Global variables---------------
-int size;
-
-
-
-//----------------Data structures---------------
-struct list
+struct cons
 {
-    int elem;
-    struct list* next;
+  int head;
+  struct cons *tail;
 };
 
-typedef struct graph graph;
+typedef struct cons* list; // the empty list is the NULL pointer
+
 struct graph
 {
-    int n;
-    struct list *lsommet;
-    
+  int size;
+  list *neighbors;
 };
 
 
-//-------------Basic functions--------------
-
-int i_of_list(int i,struct list *l)
-//To access to the i-th element of a list l
+struct big_color
 {
-    int j;
-    struct list *lres=l;
-    for(j=0;j<i;j++)
-    {
-        l= l->next;
-    }
-    return (l->elem);
-}
+  int x;
+  int *y;
+};
 
-//struct list acces(struct graph *graphentree, int i)
-////Basic function to have the neighbourhood of the vertex i.
-//{
-//  int j;
-//  struct graph *aux=graphentree;
-//  for(j=0;j<i;j++)
-//  {
-//          aux = aux->next;
-//  }
-//  return aux->lsommet;
-//}
 
-//Todo : A function that renumerate colors.
-
-int* renumerate_color (struct graph g1,int **color_old)
+struct big_color new_big_color(int size)
 {
-
-}
-
-int* new_coloration_vertex (struct graph g1,int **color_old,int i)
-//Find the new color of vertex i.
-{
-    struct list sommets;
-    int *color_i=NULL;
-    color_i=malloc(sizeof(int)*size);
-    sommets=g1.lsommet[i];
-    //Remark: It's costly, always polynomial, but this step cost about n^2
-    int j;
-    int k;
-    while(sommets.next !=NULL)
-    {
-        for(k=0;k<size;k++)
-        {color_i[j]=color_i[j]+color_old[k][j];}
-    }
+  struct big_color bc;
+  bc.y = malloc(size*sizeof(int));
+  int i;
+  for(i=0;i<size;i++)
+    bc.y[i] = 0;
+  return bc;
 }
 
 
-int test_color (int *color1, int *color2)
-//Equality for colors
+void delete_big_color(struct big_color bc)
 {
-    int i;
-    int res=1;
-    for(i=0;i<size;i++)
-    {
-        if(color1[i]!=color2[i]){res=0;} 
-    }
-    return res;
-}
+  free(bc.y);
+};
 
 
-//---------------Body-------------
-
-int main(int argc, char *argv[])
+int comp_big_color(struct big_color bc1, struct big_color bc2, int size)
 {
-    int n_vertex1;
-    int n_edge1;
-    int n_vertex2;
-    int n_edge2;
-    FILE* graph1= NULL;
-    FILE* graph2=NULL;
-    if(argc<=3){printf("Not enough arguments"); return 1;}
-    graph1=fopen(argv[1],"r+");
-    graph2=fopen(argv[2],"r+");
-    //Build the isomorphism when it is possible.
-    fclose(graph1);
-    fclose(graph2);
+  if(bc1.x != bc2.x)
     return 0;
+  else
+  {
+    int i;
+    for(i=0 ; i<size ; i++)
+      if(bc1.y[i] != bc2.y[i])
+	return 0;
+    return 1;
+  }
+}
+
+
+int *new_coloration(struct graph G, int *old_colors)
+{
+  struct big_color *bc = malloc(G.size*sizeof(struct big_color));
+  int i = 0;
+
+  for(i=0 ; i<G.size ; i++)
+  {
+    bc[i].x = old_colors[i];
+    list neighbors = G.neighbors[i];
+    while(neighbors != NULL)
+    {
+      bc[i].y[old_colors[neighbors->head]]++;
+      neighbors = neighbors->tail;
+    }
+  }
+
+  // on doit maintenant réordonner le big_colors de sorte à se ramener à un intervalle 0..n-1
+  // le recoloriage doit être unique pour pouvoir tester la stabilité du coloriage
+  // on prend la convention suivante : les couleurs font leur apparition en ordre croissant pour les sommets 0..n-1
+
+  int *new_colors = malloc(G.size*sizeof(int));
+  for(i=0 ; i<G.size ; i++)
+    new_colors[i] = -1; // par défaut
+  int max_color = -1;
+  for(i=0 ; i<G.size ; i++)
+  {
+    int j;
+    for(j=0 ; j<i ; j++)
+      if(comp_big_color(bc[i],bc[j],G.size))
+      {
+	new_colors[i] = new_colors[j];
+	break;
+      }
+    if(new_colors[i] = -1) // on n'a pas trouvé de sommets avant avec la même couleur
+      new_colors[i] = (++max_color); // on lui donne une couleur pas encore attribuée
+  }
+
+
+  // on libère l'espace mémoire utilisé par les big_colors
+  for(i=0 ; i<G.size ; i++)
+    delete_big_color(bc[i]);
+
+
+  return new_colors;
+
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+typedef int* tt;
+
+
+
+
+
+int main()
+{
+  int *x;
+  tt y;
+  y = x;
+  return 0;
 }
