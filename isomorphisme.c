@@ -20,11 +20,12 @@ struct list
     struct list* next;
 };
 
-
+typedef struct graph graph;
 struct graph
 {
-    struct list lsommet;
-    struct graph *next;
+    int n;
+    struct list *lsommet;
+    
 };
 
 
@@ -42,17 +43,17 @@ int i_of_list(int i,struct list *l)
     return (l->elem);
 }
 
-struct list acces(struct graph *graphentree, int i)
-//Basic function to have the neighbourhood of the vertex i.
-{
-  int j;
-  struct graph *aux=graphentree;
-  for(j=0;j<i;j++)
-  {
-          aux = aux->next;
-  }
-  return aux->lsommet;
-}
+//struct list acces(struct graph *graphentree, int i)
+////Basic function to have the neighbourhood of the vertex i.
+//{
+//  int j;
+//  struct graph *aux=graphentree;
+//  for(j=0;j<i;j++)
+//  {
+//          aux = aux->next;
+//  }
+//  return aux->lsommet;
+//}
 
 //Todo : A function that renumerate colors.
 
@@ -67,7 +68,7 @@ int* new_coloration_vertex (struct graph g1,int **color_old,int i)
     struct list sommets;
     int *color_i=NULL;
     color_i=malloc(sizeof(int)*size);
-    sommets= acces(&g1,i);
+    sommets=g1.lsommet[i];
     //Remark: It's costly, always polynomial, but this step cost about n^2
     int j;
     int k;
