@@ -51,7 +51,7 @@ int comp_big_color(struct big_color bc1, struct big_color bc2, int size)
     int i;
     for(i=0 ; i<size ; i++)
       if(bc1.y[i] != bc2.y[i])
-	return 0;
+	      return 0;
     return 1;
   }
 }
@@ -72,7 +72,6 @@ int *new_coloration(struct graph G, int *old_colors)
       neighbors = neighbors->tail;
     }
   }
-
   // on doit maintenant réordonner le big_colors de sorte à se ramener à un intervalle 0..n-1
   // le recoloriage doit être unique pour pouvoir tester la stabilité du coloriage
   // on prend la convention suivante : les couleurs font leur apparition en ordre croissant pour les sommets 0..n-1
@@ -87,39 +86,20 @@ int *new_coloration(struct graph G, int *old_colors)
     for(j=0 ; j<i ; j++)
       if(comp_big_color(bc[i],bc[j],G.size))
       {
-	new_colors[i] = new_colors[j];
-	break;
+	        new_colors[i] = new_colors[j];
+    	    break;
       }
     if(new_colors[i] = -1) // on n'a pas trouvé de sommets avant avec la même couleur
       new_colors[i] = (++max_color); // on lui donne une couleur pas encore attribuée
   }
-
-
   // on libère l'espace mémoire utilisé par les big_colors
   for(i=0 ; i<G.size ; i++)
     delete_big_color(bc[i]);
 
-
-  return new_colors;
-
- 
+  return new_colors; 
 }
 
-
-
-
-
-
-
-
-
-
-
 typedef int* tt;
-
-
-
-
 
 int main()
 {
