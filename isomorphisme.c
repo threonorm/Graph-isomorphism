@@ -101,10 +101,31 @@ int *new_coloration(struct graph G, int *old_colors)
 
 typedef int* tt;
 
-int main()
+int main(int argc,char *argv[])
 {
   int *x;
   tt y;
   y = x;
+  FILE* graph1= NULL;
+  FILE* graph2=NULL;
+  if(argc<=3){printf("Not enough arguments"); return 1;}
+  graph1=fopen(argv[1],"r+");
+  graph2=fopen(argv[2],"r+");
+  struct graph G1;
+  struct graph G2;
+  fscanf(graph1, "%d\n", &G1.size);
+  //Lire ligne i (voisins de i)
+  //int i,j;
+  //fscanf(graph1, "%d ",&i)
+  //if(i>0)
+  //{for (j=0;j<i-1;j++)
+ // {
+  //  fscanf(graph1,"%d ",&elem);
+ // }
+  //fscanf(graph1,"%d\n",$elem);
+ // }
+  //Build the isomorphism when it is possible.
+  fclose(graph1);
+  fclose(graph2);
   return 0;
 }
