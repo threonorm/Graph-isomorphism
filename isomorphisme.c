@@ -101,6 +101,26 @@ int *new_coloration(struct graph G, int *old_colors)
 
 typedef int* tt;
 
+list lecture_ligne(FILE* graph)
+{ 
+  int i,j;
+  fscanf(graph, "%d ",&i);
+  if(i>0)
+  {
+  list l;
+  for (j=0;j<i-1;j++)
+  {
+    list loc;
+    loc=malloc(sizeof(struct cons));
+    fscanf(graph,"%d ",&(loc->head));
+    loc->tail=l;
+    l=loc;
+  }
+  fscanf(graph,"%d\n",&(l->head));
+  return l;
+  }
+  else{return NULL;}
+}
 int main(int argc,char *argv[])
 {
   int *x;
@@ -114,16 +134,9 @@ int main(int argc,char *argv[])
   struct graph G1;
   struct graph G2;
   fscanf(graph1, "%d\n", &G1.size);
+  
   //Lire ligne i (voisins de i)
-  //int i,j;
-  //fscanf(graph1, "%d ",&i)
-  //if(i>0)
-  //{for (j=0;j<i-1;j++)
- // {
-  //  fscanf(graph1,"%d ",&elem);
- // }
-  //fscanf(graph1,"%d\n",$elem);
- // }
+  
   //Build the isomorphism when it is possible.
   fclose(graph1);
   fclose(graph2);
