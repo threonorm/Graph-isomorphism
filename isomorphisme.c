@@ -134,7 +134,9 @@ int main(int argc,char *argv[])
   struct graph G1;
   struct graph G2;
   fscanf(graph1, "%d\n", &G1.size);
-  
+  int k;
+  for (k=0;k<G1.size;k++)
+  {}
   //Lire ligne i (voisins de i)
   
   //Build the isomorphism when it is possible.
