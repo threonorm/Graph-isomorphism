@@ -11,6 +11,19 @@ struct cons
 
 typedef struct cons* list; // the empty list is the NULL pointer
 
+int free_list(list l)
+{
+    list aux1=l;
+    list aux2=l;
+    while(aux2 != NULL)
+    {
+        aux1=aux2->tail;
+        free(aux2);
+        aux2=aux1;
+    }
+    return 0;
+}
+
 struct graph
 {
   int size;
@@ -102,15 +115,18 @@ int *new_coloration(struct graph G, int *old_colors)
 typedef int* tt;
 
 list lecture_ligne(FILE* graph)
+//-----To read a line of a graph-file and build the neibourhood associated---
 { 
   int i,j;
   fscanf(graph, "%d ",&i);
   if(i>0)
   {
   list l;
+  l=malloc(sizeof(struct cons));
+  l->tail=NULL;
+  list loc;
   for (j=0;j<i-1;j++)
   {
-    list loc;
     loc=malloc(sizeof(struct cons));
     fscanf(graph,"%d ",&(loc->head));
     loc->tail=l;
@@ -121,25 +137,57 @@ list lecture_ligne(FILE* graph)
   }
   else{return NULL;}
 }
+
+
+
 int main(int argc,char *argv[])
 {
   int *x;
   tt y;
   y = x;
+  //-------To open files, and verify there are in arguments of the call---
   FILE* graph1= NULL;
   FILE* graph2=NULL;
-  if(argc<=3){printf("Not enough arguments"); return 1;}
+  if(argc<3){printf("Not enough arguments"); return 1;}
   graph1=fopen(argv[1],"r+");
   graph2=fopen(argv[2],"r+");
+  //------- To read the first graph line after line.------
+  
   struct graph G1;
-  struct graph G2;
   fscanf(graph1, "%d\n", &G1.size);
+  G1.neighbors= malloc(G1.size*sizeof(list));
   int k;
   for (k=0;k<G1.size;k++)
-  {}
-  //Lire ligne i (voisins de i)
+  {
+      G1.neighbors[k]=lecture_ligne(graph1);
+  }
   
-  //Build the isomorphism when it is possible.
+  //------ To read the second graph, line after line.-----
+  
+  struct graph G2;
+  fscanf(graph2, "%d\n", &G2.size);
+  G2.neighbors= malloc(G2.size*sizeof(list));
+  for (k=0;k<G2.size;k++)
+  {
+    G2.neighbors[k]=lecture_ligne(graph2);
+  }
+
+  //----- Try to build the isomorphism--------------
+  
+
+
+
+  //------To free memory and to close files----
+  for(k=0;k<G1.size;k++)
+  {
+      free_list(G1.neighbors[k]);
+  }
+  for(k=0;k<G2.size;k++)
+  {
+      free_list(G2.neighbors[k]);
+  }
+  free(G1.neighbors);
+  free(G2.neighbors);
   fclose(graph1);
   fclose(graph2);
   return 0;
