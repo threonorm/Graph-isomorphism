@@ -1,3 +1,5 @@
+//Authors : Bréhard Florent - Bourgeat thoms
+//A program that try to find an isomorphism between to given graphs.
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -135,7 +137,7 @@ list lecture_ligne(FILE* graph)
   fscanf(graph,"%d\n",&(l->head));
   return l;
   }
-  else{return NULL;}
+  else{fscanf(graph,"\n",&i);return NULL;}
 }
 
 
