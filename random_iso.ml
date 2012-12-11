@@ -4,16 +4,27 @@
 open Random
 
 (*---------To make Random graph-----*)
-let random_graph n =
-  let graph = Array.make (n+1) [] in
-  let rec list_alea k = match k with
-    |0-> []
-    |_-> (int(k)+1)::(list_alea (k-1))
-  in
-  for i=1 to n do
-    graph.(i)<- list_alea (int n);
+
+let rec appartient e = function
+  |t::q-> if t=e then true else appartient e q
+  |[]-> false
+
+ let random_graph n =
+  let graph = Array.make n [] in
+  let compt = ref 0 in
+  let a= ref 0 in
+  let b= ref 0 in
+  while (!compt < (100*n)) do
+   a:=(int n);
+   b:= !a;
+   while (!b = !a) do (b:= (int n);) done;
+   if not(appartient (!a) (graph.(!b))) 
+   then (incr compt;
+        graph.(!a)<- (!b)::(graph.(!a));
+        graph.(!b)<- (!a)::(graph.(!b)))
   done;  
   graph
+
 (*-----Basic functions -------*)
 let swap i j tab = 
  let aux = tab.(i) in
@@ -22,13 +33,13 @@ let swap i j tab =
 
 
 let permut n mix =
-	let table = Array.make (n+1) 0 in
-	for i=0 to n do
+	let table = Array.make (n) 0 in
+	for i=0 to n-1 do
 	table.(i)<- i
 	done;
 	for i=0 to mix do
-		let a = (int n) +1 in
-		let b= (int n) +1 in
+		let a = (int n) in
+		let b= (int n) in
 		swap a b table;
 	done;
 	(fun i-> table.(i))
@@ -55,8 +66,8 @@ let rec write_list f l= match l with
 
 let write_graph f graph = 
   let size = Array.length graph in
-  Format.fprintf f "%d\n" size; 
-  for i=1 to size -1 do
+  Format.fprintf f "%d\n" (size); 
+  for i=0 to size -1 do
     let k = List.length graph.(i) in
     Format.fprintf f "%d " k;
     if k <> 0 
