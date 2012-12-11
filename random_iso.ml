@@ -3,18 +3,18 @@
 
 open Random
 
-(*---------To make Random graph-----*)
+(*---------To make Random graph Old version-----
 
 let rec appartient e = function
   |t::q-> if t=e then true else appartient e q
   |[]-> false
 
- let random_graph n =
+ let random_graph n n_edges=
   let graph = Array.make n [] in
   let compt = ref 0 in
   let a= ref 0 in
   let b= ref 0 in
-  while (!compt < (100*n)) do
+  while (!compt < (n_edges)) do
    a:=(int n);
    b:= !a;
    while (!b = !a) do (b:= (int n);) done;
@@ -24,6 +24,7 @@ let rec appartient e = function
         graph.(!b)<- (!a)::(graph.(!b)))
   done;  
   graph
+*)
 
 (*-----Basic functions -------*)
 let swap i j tab = 
@@ -32,21 +33,62 @@ let swap i j tab =
  tab.(j)<-aux
 
 
-let permut n mix =
+let permut n =
 	let table = Array.make (n) 0 in
 	for i=0 to n-1 do
 	table.(i)<- i
 	done;
-	for i=0 to mix do
+	for i=0 to n-1 do
 		let a = (int n) in
-		let b= (int n) in
-		swap a b table;
+		swap a i table;
 	done;
 	(fun i-> table.(i))
+
+let permut_tabl n=
+  let table = Array.make (n) 0 in
+	for i=0 to n-1 do
+	table.(i)<- i
+	done;
+	for i=0 to n-1 do
+		let a = (int n) in
+		swap a i table;
+	done;
+	table
+
 
 let rec permut_list f = function
 	|t::q-> (f t)::(permut_list f q)
 	|[]->[]
+
+ let of_array tabl = 
+    let l = ref [] in
+    for i=0 to Array.length tabl -1 do
+      l:= (tabl.(i))::(!l);
+    done;
+  !l
+
+(*-----To make random graphs in n^2, with a n_edges choosen-----*)
+
+
+let random_graph n n_edges=
+  let graph = Array.make n [] in
+   let perm = of_array (permut_tabl (n*n)) in
+   let rec fill_graph g m = function
+        |t::tail-> 
+        if m <> 0 
+         then 
+            (let q= t/n and r= (t mod n) in
+                graph.(q)<-r::(graph.(q));
+                graph.(r)<-q::(graph.(r));
+                fill_graph g (m-1) tail)
+         else () 
+        |[]-> ()  
+  in
+  fill_graph graph n_edges perm;
+  graph
+
+
+
 
 (*-------To create the isomorph graph, by permutation f-------*)
 
@@ -78,17 +120,17 @@ let write_graph f graph =
 (*----------Body -------------------*)
 
 let main ()=
-  if (Array.length (Sys.argv)) <2 
+  if (Array.length (Sys.argv)) <4 
   then failwith("Please enter the size of random graph")
   else 
     let size = int_of_string(Sys.argv.(1)) in
-    let a= open_out "graph1" in
-    let b= open_out "graph2" in
+    let a= open_out ("graph1"^(Sys.argv.(3))) in
+    let b= open_out ("graph2"^(Sys.argv.(3))) in
     let f1= Format.formatter_of_out_channel a in
     let f2= Format.formatter_of_out_channel b in 
     Random.self_init ();
-    let graph = random_graph size in
-    let perm = permut size size in
+    let graph = random_graph size (int_of_string (Sys.argv.(2))) in
+    let perm = permut size in
     let graph_iso = iso_graph perm graph in
     write_graph f2 graph_iso;
     Format.fprintf f2 "@?";
