@@ -119,12 +119,9 @@ int weisfeiler_lehman1(graph G1, graph G2, int *iso)
     iso[i] = -1;
     iso_inv[i] = -1;
     colors1[i] = 0;
-    colors2[i] = 0;
-    for(j=0 ; j<size ; j++)
-    {
-      bc1[j] = new_big_color(size);
-      bc2[j] = new_big_color(size);
-    }
+    colors2[i] = 0; 
+      bc1[i] = new_big_color(size);
+      bc2[i] = new_big_color(size);
     V[i] = 0;
     stack[i] = -1;
     history[i] = malloc(size*sizeof(int));
