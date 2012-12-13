@@ -76,12 +76,12 @@ int main(int argc,char *argv[])
 //  fast_print_graph(G1); 
  // fast_print_graph(G2);
   int size=G1.size;
-  printf("\n\n");
-  printf("\n-----------\n\n");
+ // printf("\n\n");
+ // printf("\n-----------\n\n");
   int *iso = malloc(size*sizeof(int));
   int flag = weisfeiler_lehman1(G1, G2, iso);
-  printf("-----%d-----\n", flag);
-  for(i=0 ; i<size ; i++) printf("%d ", iso[i]); printf("\n\n");
+  printf("%d\n", flag);
+  //for(i=0 ; i<size ; i++) printf("%d ", iso[i]); printf("\n\n");
   //flag = isomorphism_naive(G1, G2, iso);
   //printf("-----%d-----\n", flag);
   //for(i=0 ; i<size ; i++) printf("%d ", iso[i]); printf("\n\n");
