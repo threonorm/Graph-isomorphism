@@ -45,7 +45,7 @@ void fast_print_graph(graph G)
 int main(int argc,char *argv[])
 {
   int i;
-  int size = 1000;
+  
    //-------To open files, and verify there are in arguments of the call---
   FILE* graph1= NULL;
   FILE* graph2=NULL;
@@ -73,18 +73,18 @@ int main(int argc,char *argv[])
     G2.neighbors[k]=lecture_ligne(graph2);
   }
   //----- Try to build the isomorphism--------------
-  fast_print_graph(G1); 
-  fast_print_graph(G2);
-
+//  fast_print_graph(G1); 
+ // fast_print_graph(G2);
+  int size=G1.size;
   printf("\n\n");
   printf("\n-----------\n\n");
   int *iso = malloc(size*sizeof(int));
   int flag = weisfeiler_lehman1(G1, G2, iso);
   printf("-----%d-----\n", flag);
   for(i=0 ; i<size ; i++) printf("%d ", iso[i]); printf("\n\n");
-  flag = isomorphism_naive(G1, G2, iso);
-  printf("-----%d-----\n", flag);
-  for(i=0 ; i<size ; i++) printf("%d ", iso[i]); printf("\n\n");
+  //flag = isomorphism_naive(G1, G2, iso);
+  //printf("-----%d-----\n", flag);
+  //for(i=0 ; i<size ; i++) printf("%d ", iso[i]); printf("\n\n");
  
   //------To free memory and to close files----
   for(k=0;k<G1.size;k++)
