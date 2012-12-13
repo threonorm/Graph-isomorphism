@@ -79,8 +79,10 @@ int main(int argc,char *argv[])
  // printf("\n\n");
  // printf("\n-----------\n\n");
   int *iso = malloc(size*sizeof(int));
+  clock_t uptime = clock() / (CLOCKS_PER_SEC / 1000);
   int flag = weisfeiler_lehman1(G1, G2, iso);
-  printf("%d\n", flag);
+  clock_t downtime= clock()/ (CLOCKS_PER_SEC /1000);
+  printf("%d %2.1f\n",flag,(double)(downtime-uptime));
   //for(i=0 ; i<size ; i++) printf("%d ", iso[i]); printf("\n\n");
   //flag = isomorphism_naive(G1, G2, iso);
   //printf("-----%d-----\n", flag);
