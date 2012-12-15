@@ -1,0 +1,37 @@
+-----Compilation------
+"make" va générer "random_iso" ainsi que "isomorphe". GCC et OCamlc sont
+necessaires (le générateur de graphes dans un fichier est en ocaml)
+
+-----random_iso--------
+
+C'est un petit module codé en ocaml qui permet de générer des fichiers de
+graphes.
+
+Utilisation :
+"./random_iso a b i" avec a,b i entiers.
+
+Génère deux fichiers, graph1i et graph2i, qui sont deux graphes
+isomorphes de a sommets et b arêtes.
+
+Ce sont ces graphes que nous donneront en essai à notre programme
+principal.
+
+-------isomorphe-------
+
+"./isomorphe grapha graphb" renvoit si les deux graphes sont isomorphes.
+S'ils le sont il renvoit l'isomorphisme.
+
+
+
+D'autres fonctions qui n'étaient pas demandées dans le sujet, ont été
+implémentés. Voir le code source et décommenter certaines lignes pour y
+avoir accès: 
+-Des fonctions pour étudier la connexité des
+graphes ont été implémentés pour étudier des cas difficiles pour
+l'algorithme.
+
+-Un générateur de graphe en C est aussi inclu, il écrit directement dans
+la mémoire, sans passer par les fichiers. Ceci permet aussi de faire des
+tests de manière plus rapide (pas de lecture des graphes). 
+
+ 
